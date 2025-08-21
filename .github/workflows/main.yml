@@ -4,8 +4,8 @@ on: ## 触发条件
     branches:   ## 哪个分支发生了改变才触发
     - main
     - 'releases/**'
-    paths:  ## 哪个文件发生了改变才触发
-    - src/*
+    # paths:  ## 哪个文件发生了改变才触发
+    # - src/*
   #schedule:  ## 定时触发 **和push是互斥的，只能有一个存在**
   #  # * is a special character in YAML so you have to quote this string
   #  - cron:  '30 5,17 * * *' ## 只在上午和下午5点半执行
