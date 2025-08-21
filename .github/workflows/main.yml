@@ -1,15 +1,34 @@
-name: CI
-
-on: [push]
-
-jobs:
-  build:
+name: MYCI  ## 步骤名
+on: ## 触发条件
+  push: ## push时才触发
+    branches:   ## 哪个分支发生了改变才触发
+    - main
+    - 'releases/**'
+    paths:  ## 哪个文件发生了改变才触发
+    - src/*
+  #schedule:  ## 定时触发 **和push是互斥的，只能有一个存在**
+  #  # * is a special character in YAML so you have to quote this string
+  #  - cron:  '30 5,17 * * *' ## 只在上午和下午5点半执行
+  
+jobs:   ## 执行事件
+  job1: ## 执行名称
+    runs-on: ubuntu-latest  ## 运行环境（ubuntu-latest, ubuntu-18.04, windows-latest, macOS-latest等）
+    steps:
+    - uses: actions/checkout@v1  ## 拉取v1分支代码（也可将v1换成main）， 当然也可以运行其它action文件，比如： docker://alpine:3.8是使用docker镜像   ./.github/actions/hello-world-action是使用本地仓库中的action文件
+    - name: run a script
+      run: echo hello
+  job2:
+    needs: job1 ## 先决条件（job1执行完成）
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, World!
-    - name: Run a multi-line script
+    - name: Use Node.js ## 安装node.js
+      uses: actions/setup-node@v1   ## 指定node.js版本
+    - name: Install Dependencies
+      run: npm install
+    - name: Clean install dependencies and build
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        npm ci
+        npm run build --if-present
+        npm test
+        node -v
+    - run: echo job2 finished
