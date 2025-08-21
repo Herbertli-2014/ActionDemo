@@ -21,13 +21,13 @@ jobs:   ## 执行事件
     needs: job1 ## 先决条件（job1执行完成）
     runs-on: ubuntu-latest
     steps:
-    - name: check node version first
+    - name: check OS node version first
       run: node -v
     - name: Use Node.js ## 安装node.js
       uses: actions/setup-node@v1   ## 指定node.js版本
     - name: Install Dependencies
       run: npm install
-    - name: Clean install dependencies and build
+    - name: show the current node version
       run: |
         node -v
     - run: echo job2 finished
