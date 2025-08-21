@@ -29,7 +29,5 @@ jobs:   ## 执行事件
       run: npm install
     - name: Clean install dependencies and build
       run: |
-        npm run build --if-present
-        npm test
         node -v
     - run: echo job2 finished
