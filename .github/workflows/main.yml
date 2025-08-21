@@ -4,10 +4,10 @@ on: ## 触发时机
     branches:   ## 哪个分支发生了改变才触发
     - main
     - 'releases/**'
-    paths:  ## 哪个文件发生了改变才触发
-    - src/*
-  #schedule:  ## 定时触发 **和push是互斥的，只能有一个存在**
-  #  # * is a special character in YAML so you have to quote this string
+  #  paths:  ## 哪个文件发生了改变才触发
+  #  - src/*
+  #  schedule:  ## 定时触发 **和push是互斥的，只能有一个存在**
+  #   # * is a special character in YAML so you have to quote this string
   #  - cron:  '30 5,17 * * *' ## 只在上午和下午5点半执行
   
 jobs:   ## 触发任务
@@ -17,7 +17,6 @@ jobs:   ## 触发任务
     - uses: actions/checkout@v1  ## 拉取v1分支代码（也可将v1换成main）， 当然也可以运行其它action文件，比如： docker://alpine:3.8是使用docker镜像   ./.github/actions/hello-world-action是使用本地仓库中的action文件
     - name: run a script
       run: echo hello
-
   job2:
     needs: job1 ## 先决条件（job1执行完成）
     runs-on: ubuntu-latest
@@ -42,16 +41,5 @@ jobs:   ## 触发任务
     - name: Install Dependencies
       run: npm install
     - name: show the current node version
-      run: |
-        node -v
-        echo Redis available on 127.0.0.1:${{ job.services.redis.ports['6379'] }}
-        echo Nginx available on 127.0.0.1:${{ job.services.nginx.ports['80'] }}
-
-
-
-
-
-
-
-
-
+      run: node -v
+    - run: echo job2 finished
