@@ -40,5 +40,7 @@ jobs:   ## 触发任务
     #  run: npm install
     - run: |
         node -v
+        curl localhost:32768
         echo "Redis available on 127.0.0.1:${{ job.services.redis.ports['6379'] }}"
         echo "Nginx available on 127.0.0.1:${{ job.services.nginx.ports['80'] }}"
+        curl localhost:8080
