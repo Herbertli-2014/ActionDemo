@@ -1,0 +1,38 @@
+name: MYCI  ## 步骤名
+on: ## 触发时机
+  push: ## push时才触发
+    branches:   ## 哪个分支发生了改变才触发
+    - main
+    - 'releases/**'
+  #  paths:  ## 哪个文件发生了改变才触发
+  #  - src/*
+  #  schedule:  ## 定时触发 **和push是互斥的，只能有一个存在**
+  #   # * is a special character in YAML so you have to quote this string
+  #  - cron:  '30 5,17 * * *' ## 只在上午和下午5点半执行
+  
+jobs:   ## 触发任务
+  job1: ## 任务名称
+    runs-on: ubuntu-latest  ## 运行环境（ubuntu-latest, ubuntu-18.04, windows-latest, macOS-latest等）
+    steps:
+    - uses: actions/checkout@v1  ## 拉取v1分支代码（也可将v1换成main）， 当然也可以运行其它action文件，比如： docker://alpine:3.8是使用docker镜像   ./.github/actions/hello-world-action是使用本地仓库中的action文件
+    - name: run a script
+      run : echo hello
+  job2:
+    needs: job1 ## 先决条件（job1执行完成）
+    runs-on: ubuntu-latest
+    
+    services:
+      nginx:
+        image: nginx
+        # Map port 8080 on the Docker host to port 80 on the nginx container
+        ports:
+          - 8080:80
+    
+    steps:
+    - name: Use Node.js ## 安装node.js
+      uses: actions/setup-node@v1   ## 指定node.js版本, uses是在环境中运行了下这个脚本，而并非下面的run是在这个脚本容器中运行
+    - name: Install Dependencies
+      run : npm install
+    - run : node -v
+    - run : 
+        curl ${{secrets.REMOT_HOST}}:8080  ## ${{}}表示从secrets中取出REMOT_HOST的值，Password等也可以用此方法维护
