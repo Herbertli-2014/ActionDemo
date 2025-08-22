@@ -1,8 +1,8 @@
 name: 京东签到
 on:
-  schedule:
-    ## UTC时间
-    - cron: '00 00 * * *'
+#  schedule:
+#    ## UTC时间
+#    - cron: '00 00 * * *'
   workflow_dispatch:
 
 #premissions:
