@@ -34,12 +34,11 @@ jobs:   ## 触发任务
           - 6379/tcp
     
     steps:
-    - name: check node version first
-      run: node -v
     #- name: Use Node.js ## 安装node.js
     #  uses: actions/setup-node@v1   ## 指定node.js版本, uses是在环境中运行了下这个脚本，而并非下面的run是在这个脚本容器中运行
-    - name: Install Dependencies
-      run: npm install
-    - name: show the current node version
-      run: node -v
-    - run: echo job2 finished
+    #- name: Install Dependencies
+    #  run: npm install
+    - run: |
+        node -v
+        echo "Redis available on 127.0.0.1:${{ job.services.redis.ports['6379'] }}"
+        echo "Nginx available on 127.0.0.1:${{ job.services.nginx.ports['80'] }}"
