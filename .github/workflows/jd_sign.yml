@@ -5,8 +5,8 @@ on:
     - cron: '00 00 * * *'
   workflow_dispatch:
 
-premissions:
-  contents: read
+#premissions:
+#  contents: read
   
 jobs:
   build:
